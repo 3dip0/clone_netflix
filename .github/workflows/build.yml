@@ -16,4 +16,5 @@ jobs:
       - name: Install
         run: npm ci --prefer-offline
       - name: Build
-        run: npm run build
+        run: npm install
+        run: npm start
