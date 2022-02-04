@@ -1,23 +1,19 @@
-name: deploy
+name: Build
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
-      - name: Build web-app
-        run: |
-          npm start
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          node-version: '14'
+          cache: 'npm'
+      - name: Install npm@8
+        run: npm i -g npm@8
+      - name: Install
+        run: npm ci --prefer-offline
+      - name: Build
+        run: npm run build
